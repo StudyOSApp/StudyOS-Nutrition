@@ -182,6 +182,52 @@
       margin:0 auto;
     }
 
+    .practice-heading-row {
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:12px;
+      margin:16px 0 10px;
+      padding-bottom:6px;
+      border-bottom:2px solid var(--line);
+    }
+
+    .practice-heading-row h2 {
+      grid-column:1;
+      margin:0;
+      padding:0;
+      border:0;
+    }
+
+    .exam-tabs {
+      grid-column:2;
+      justify-self:center;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .exam-tab {
+      min-height:36px;
+      padding:7px 14px;
+      border:1px solid #c9d4e2;
+      border-radius:8px;
+      background:var(--unit-card);
+      color:var(--muted);
+      font:inherit;
+      font-weight:850;
+      cursor:pointer;
+    }
+
+    .exam-tab:hover { border-color:var(--blue); }
+
+    .exam-tab.active {
+      border-color:var(--blue);
+      background:var(--active);
+      color:var(--ink);
+      box-shadow:0 0 0 2px rgba(31,111,235,.13);
+    }
+
     .unit-tabs {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
@@ -1589,6 +1635,16 @@
 
     @media(max-width:520px) {
       main { padding:10px; }
+      .practice-heading-row {
+        grid-template-columns:1fr;
+        gap:7px;
+      }
+      .practice-heading-row h2 { grid-column:1; }
+      .exam-tabs {
+        grid-column:1;
+        width:100%;
+      }
+      .exam-tab { flex:1; }
 
       .card { padding:12px; }
 
@@ -1715,7 +1771,10 @@
 
   <!-- Quiz Engine HTML -->
   <section id="practice" class="quiz-shell">
-    <h2>160-Question Interactive Practice</h2>
+    <div class="practice-heading-row">
+      <h2 id="practiceHeading">Exam 1 Interactive Practice</h2>
+      <div id="examTabs" class="exam-tabs" aria-label="Exam selection"></div>
+    </div>
     <div id="unitTabs" class="unit-tabs" aria-label="Content topics"></div>
     <div id="unitIntro" class="big-question">Choose All Topics for the complete 160-question bank or select a focused topic bank.</div>
 
@@ -2037,12 +2096,14 @@ document.addEventListener("DOMContentLoaded", function() {
   var units = [
   {
     "order": 0,
+    "exam": "exam1",
     "name": "All Topics",
     "title": "",
     "blocks": []
   },
   {
     "order": 1,
+    "exam": "exam1",
     "name": "Instructor Exam Review - Highest Probability",
     "title": "",
     "blocks": [
@@ -2056,6 +2117,7 @@ document.addEventListener("DOMContentLoaded", function() {
   },
   {
     "order": 2,
+    "exam": "exam1",
     "name": "Macronutrient Foundations",
     "title": "",
     "blocks": [
@@ -2069,6 +2131,7 @@ document.addEventListener("DOMContentLoaded", function() {
   },
   {
     "order": 3,
+    "exam": "exam1",
     "name": "Energy Expenditure and Caloric Calculations",
     "title": "",
     "blocks": [
@@ -2080,6 +2143,7 @@ document.addEventListener("DOMContentLoaded", function() {
   },
   {
     "order": 4,
+    "exam": "exam1",
     "name": "Nutrition Labels, DRIs, and Macronutrient Math",
     "title": "",
     "blocks": [
@@ -2091,6 +2155,7 @@ document.addEventListener("DOMContentLoaded", function() {
   },
   {
     "order": 5,
+    "exam": "exam1",
     "name": "Digestion, Absorption, and Metabolic Integration",
     "title": "",
     "blocks": [
@@ -2104,6 +2169,7 @@ document.addEventListener("DOMContentLoaded", function() {
   },
   {
     "order": 6,
+    "exam": "exam1",
     "name": "Nutrition Quality, Disease, and Detoxification",
     "title": "",
     "blocks": [
@@ -2118,14 +2184,66 @@ document.addEventListener("DOMContentLoaded", function() {
   },
   {
     "order": 7,
-    "name": "Abby Soccer Quizlet",
+    "exam": "exam1",
+    "name": "Abby Soccer Supplemental",
     "title": "",
     "blocks": [
       "Macronutrient foundations",
       "Carbohydrate and glycemic concepts",
-      "Dietary patterns and amino acids",
-      "Vitamin concepts",
+      "Dietary patterns and amino acids"
+    ]
+  },
+  {
+    "order": 0,
+    "exam": "exam2",
+    "name": "All Topics",
+    "title": "",
+    "blocks": []
+  },
+  {
+    "order": 1,
+    "exam": "exam2",
+    "name": "Vitamins",
+    "title": "",
+    "blocks": [
+      "Vitamin concepts"
+    ]
+  },
+  {
+    "order": 2,
+    "exam": "exam2",
+    "name": "B Vitamins and Coenzymes",
+    "title": "",
+    "blocks": [
+      "Vitamin concepts"
+    ]
+  },
+  {
+    "order": 3,
+    "exam": "exam2",
+    "name": "Minerals and Related Nutrients",
+    "title": "",
+    "blocks": [
       "Mineral functions",
+      "Supplemental clinical applications"
+    ]
+  },
+  {
+    "order": 4,
+    "exam": "exam2",
+    "name": "Deficiency and Toxicity",
+    "title": "",
+    "blocks": [
+      "Vitamin concepts",
+      "Supplemental clinical applications"
+    ]
+  },
+  {
+    "order": 5,
+    "exam": "exam2",
+    "name": "Supplement Applications",
+    "title": "",
+    "blocks": [
       "Supplemental clinical applications"
     ]
   }
@@ -2146,7 +2264,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Required Dietary Amount"
     },
     "correctAnswer": "A",
-    "explanation": "The lecture defines the RDA as the average daily intake sufficient to meet the nutrient requirements of nearly all healthy individuals.",
+    "explanation": "Nutrition guidance defines the RDA as the average daily intake sufficient to meet the nutrient requirements of nearly all healthy individuals.",
     "terminology": [
       {
         "term": "Recommended Dietary Allowance",
@@ -2157,14 +2275,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: explicit RDA emphasis; CN - Macros - Intro, p. 6",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q2",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Adult DRIs, RDAs, and AMDRs",
     "subtopic": "Adult DRIs, RDAs, and AMDRs",
-    "question": "What adult carbohydrate RDA is shown in the lecture?",
+    "question": "What is the adult carbohydrate RDA?",
     "choices": {
       "A": "350 g/day",
       "B": "45 g/day",
@@ -2183,7 +2303,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 7",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q3",
@@ -2198,7 +2320,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "An AMDR is a recommended percentage range, whereas an RDA is a daily amount when one is established."
     },
     "correctAnswer": "D",
-    "explanation": "The lecture presents macronutrient percentage ranges separately from single-value RDAs such as 130 g/day for carbohydrate and 0.8 g/kg/day for protein.",
+    "explanation": "Nutrition guidance presents macronutrient percentage ranges separately from single-value RDAs such as 130 g/day for carbohydrate and 0.8 g/kg/day for protein.",
     "terminology": [
       {
         "term": "Adult DRIs, RDAs, and AMDRs",
@@ -2209,14 +2331,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, pp. 7, 9, 11",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q4",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Adult DRIs, RDAs, and AMDRs",
     "subtopic": "Adult DRIs, RDAs, and AMDRs",
-    "question": "How does the lecture present the adult fat DRI?",
+    "question": "How is the adult fat DRI expressed?",
     "choices": {
       "A": "A fixed RDA for all essential fat",
       "B": "No general fat RDA is set",
@@ -2235,14 +2359,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, pp. 9, 11; transcript: fat RDA emphasis",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q5",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Adult DRIs, RDAs, and AMDRs",
     "subtopic": "Adult DRIs, RDAs, and AMDRs",
-    "question": "What protein RDA does the course use?",
+    "question": "What is the adult protein RDA?",
     "choices": {
       "A": "0.8 g/kg/day",
       "B": "1.6 g/kg/day",
@@ -2250,7 +2376,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "10 g/kg/day"
     },
     "correctAnswer": "A",
-    "explanation": "The lecture and review transcript identify 0.8 g/kg/day as the protein RDA used for the course.",
+    "explanation": "The adult protein RDA is 0.8 g/kg/day.",
     "terminology": [
       {
         "term": "0.8 g/kg/day",
@@ -2261,22 +2387,24 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 11; transcript: protein RDA emphasis",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q6",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Adult DRIs, RDAs, and AMDRs",
     "subtopic": "Adult DRIs, RDAs, and AMDRs",
-    "question": "Which statement reflects the instructor's guidance about exact essential-amino-acid numbers?",
+    "question": "Which statement best describes an essential amino acid?",
     "choices": {
-      "A": "They are the main numerical values to memorize for Exam 1.",
-      "B": "They replace the protein RDA.",
-      "C": "They determine the adult fat RDA.",
-      "D": "They are not expected memorization targets for this exam."
+      "A": "It can be synthesized in sufficient amounts by the body under ordinary conditions.",
+      "B": "It must be obtained from the diet because the body cannot synthesize enough of it.",
+      "C": "It is used only as an energy source and has no role in protein synthesis.",
+      "D": "It is found only in animal-derived foods."
     },
-    "correctAnswer": "D",
-    "explanation": "The instructor explicitly said not to memorize the specific essential-amino-acid numbers, while identifying 0.8 g/kg/day as important.",
+    "correctAnswer": "B",
+    "explanation": "Essential amino acids cannot be synthesized in sufficient amounts by the body and therefore must be obtained from the diet.",
     "terminology": [
       {
         "term": "Adult DRIs, RDAs, and AMDRs",
@@ -2287,7 +2415,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: instructor explicitly excluded exact essential-amino-acid numbers",
     "learningLevel": "Foundation",
     "retrievalAngle": "Misconception Detection",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q7",
@@ -2302,7 +2432,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "The AMDRs apply only to foods, not people."
     },
     "correctAnswer": "B",
-    "explanation": "The review emphasizes that percentage choices depend on the individual, even though the lecture provides general adult ranges.",
+    "explanation": "Macronutrient percentage choices depend on the individual, even though general adult ranges are available.",
     "terminology": [
       {
         "term": "Adult DRIs, RDAs, and AMDRs",
@@ -2313,7 +2443,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: percentages depend on goals, training, activity, and clinical context; CN - Macros - Intro, p. 19",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q8",
@@ -2339,14 +2471,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q9",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Energy-rate definitions and class calculation standard",
     "subtopic": "Energy-rate definitions and class calculation standard",
-    "question": "How does RMR differ from BMR in the course material?",
+    "question": "How does RMR differ from BMR?",
     "choices": {
       "A": "A less-restricted resting measure",
       "B": "An exercise-only measure",
@@ -2354,7 +2488,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "A digestion-only measure"
     },
     "correctAnswer": "A",
-    "explanation": "The lecture describes RMR as BMR plus metabolic activity and includes respiration, circulation, ion pumping, the CNS, and temperature regulation.",
+    "explanation": "RMR includes the energy used for basic metabolic activity, including respiration, circulation, ion pumping, central nervous system activity, and temperature regulation.",
     "terminology": [
       {
         "term": "A less-restricted resting measure",
@@ -2365,14 +2499,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 3; transcript: BMR versus RMR",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q10",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Energy-rate definitions and class calculation standard",
     "subtopic": "Energy-rate definitions and class calculation standard",
-    "question": "Which equation does the course identify as its standard method for estimating RMR?",
+    "question": "Which equation estimates RMR from age, weight, height, and sex?",
     "choices": {
       "A": "Harris-Benedict only",
       "B": "Mifflin-St Jeor",
@@ -2380,7 +2516,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Percent Daily Value"
     },
     "correctAnswer": "B",
-    "explanation": "The lecture names the Mifflin-St Jeor equation as an example and the instructor says it is the class standard.",
+    "explanation": "The Mifflin-St Jeor equation estimates resting metabolic rate from age, weight, height, and sex.",
     "terminology": [
       {
         "term": "Mifflin-St Jeor",
@@ -2391,7 +2527,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 3; transcript: Mifflin-St Jeor class standard",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q11",
@@ -2406,7 +2544,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Energy required to digest, absorb, and assimilate food"
     },
     "correctAnswer": "D",
-    "explanation": "TEF is the energy cost of processing food; the lecture also notes that protein has the highest thermic response.",
+    "explanation": "TEF is the energy cost of processing food, and protein has the highest thermic response among the macronutrients.",
     "terminology": [
       {
         "term": "Energy required to digest, absorb, and assimilate food",
@@ -2417,14 +2555,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 4; transcript: TEF is approximately 10% of caloric intake",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Definition",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q12",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Energy-rate definitions and class calculation standard",
     "subtopic": "Energy-rate definitions and class calculation standard",
-    "question": "Which expression matches the course definition of TDEE?",
+    "question": "Which expression defines total daily energy expenditure (TDEE)?",
     "choices": {
       "A": "RMR minus physical activity minus TEF",
       "B": "BMR minus TEF",
@@ -2432,7 +2572,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "RDA plus AMDR"
     },
     "correctAnswer": "C",
-    "explanation": "The lecture defines total daily energy expenditure as resting metabolic rate plus physical activity plus the thermic effect of food.",
+    "explanation": "Nutrition guidance defines total daily energy expenditure as resting metabolic rate plus physical activity plus the thermic effect of food.",
     "terminology": [
       {
         "term": "RMR plus physical activity plus TEF",
@@ -2443,14 +2583,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 7; transcript: TDEE equation",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Relationship",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q13",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Energy-rate definitions and class calculation standard",
     "subtopic": "Energy-rate definitions and class calculation standard",
-    "question": "If a person consumes 2,000 calories per day, what TEF estimate should be used for the class-style calculation?",
+    "question": "If a person consumes 2,000 calories per day, what TEF estimate results from a 10% approximation?",
     "choices": {
       "A": "20 calories",
       "B": "200 calories",
@@ -2458,7 +2600,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "2,200 calories"
     },
     "correctAnswer": "B",
-    "explanation": "The instructor's example treats TEF as approximately 10% of calories ingested, so 0.10 x 2,000 is about 200 calories.",
+    "explanation": "Using a 10% approximation, the thermic effect of food from 2,000 calories is about 200 calories.",
     "terminology": [
       {
         "term": "200 calories",
@@ -2469,7 +2611,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 4; transcript: 2,000 calories produces approximately 200 TEF calories",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q14",
@@ -2484,7 +2628,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "RMR is never part of TDEE."
     },
     "correctAnswer": "C",
-    "explanation": "The review warns that adding a device's total expenditure to an equation containing RMR can double-count resting energy.",
+    "explanation": "The evidence warns that adding a device's total expenditure to an equation containing RMR can double-count resting energy.",
     "terminology": [
       {
         "term": "Energy-rate definitions and class calculation standard",
@@ -2495,14 +2639,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: wearable devices may include resting expenditure",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Misconception Detection",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q15",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Energy-rate definitions and class calculation standard",
     "subtopic": "Energy-rate definitions and class calculation standard",
-    "question": "What response does the lecture associate with a substantial decrease in energy intake?",
+    "question": "What physiologic response can accompany a substantial decrease in energy intake?",
     "choices": {
       "A": "A decline in metabolism, with the largest decline noted around 1,000-1,200 calories",
       "B": "An increase in lean mass without other changes",
@@ -2521,14 +2667,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 8; transcript: decreased intake and metabolic decline",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Increase -> Consequence",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q16",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Metabolic syndrome and noncommunicable disease",
     "subtopic": "Metabolic syndrome and noncommunicable disease",
-    "question": "Which set best matches the metabolic-syndrome components shown or cited in the course material?",
+    "question": "Which set best matches the components of metabolic syndrome?",
     "choices": {
       "A": "Asthma, anemia, infection, and fracture",
       "B": "Lactose intolerance, celiac disease, anemia, and dehydration",
@@ -2547,7 +2695,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Fats, p. 13; Macros - Carbohydrates, p. 18; transcript: metabolic syndrome emphasis",
     "learningLevel": "Integrative",
     "retrievalAngle": "Integration",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q17",
@@ -2562,7 +2712,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "A short-term illness spread through contaminated food"
     },
     "correctAnswer": "A",
-    "explanation": "The instructor uses heart disease as an example while emphasizing the meaning of noncommunicable disease.",
+    "explanation": "Heart disease is a noncommunicable disease because it is not transmitted from person to person.",
     "terminology": [
       {
         "term": "A disease that is not transmitted person-to-person, such as heart disease",
@@ -2573,7 +2723,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: instructor says heart disease is a noncommunicable disease and may be asked",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q18",
@@ -2599,7 +2751,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 21-25; transcript: whole fruit versus juice emphasis",
     "learningLevel": "Integrative",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q19",
@@ -2614,7 +2768,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Phase I reactions can create more reactive intermediates and reactive oxygen species."
     },
     "correctAnswer": "D",
-    "explanation": "The lecture describes Phase I as bond-breaking reactions that can leave reactive intermediates; Phase II is needed to neutralize and prepare them for elimination.",
+    "explanation": "Nutrition guidance describes Phase I as bond-breaking reactions that can leave reactive intermediates; Phase II is needed to neutralize and prepare them for elimination.",
     "terminology": [
       {
         "term": "Whole foods, juice, and liver detoxification",
@@ -2625,14 +2779,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 27, 31; transcript: Phase I creates reactive intermediates",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q20",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Whole foods, juice, and liver detoxification",
     "subtopic": "Whole foods, juice, and liver detoxification",
-    "question": "What is the main role of Phase II in the detoxification sequence taught in the course?",
+    "question": "What is the main role of Phase II in detoxification?",
     "choices": {
       "A": "It breaks bonds to create reactive intermediates.",
       "B": "It converts all toxins directly into glucose.",
@@ -2651,7 +2807,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, p. 31; transcript: whole foods push Phase II",
     "learningLevel": "Integrative",
     "retrievalAngle": "Mechanism",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q21",
@@ -2666,7 +2824,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Macronutrients are supplements; micronutrients provide all calories."
     },
     "correctAnswer": "B",
-    "explanation": "The lecture classifies carbohydrates, fats, proteins, and water as macronutrients and vitamins and minerals as micronutrients.",
+    "explanation": "Nutrition guidance classifies carbohydrates, fats, proteins, and water as macronutrients and vitamins and minerals as micronutrients.",
     "terminology": [
       {
         "term": "Macronutrient functions and caloric values",
@@ -2677,14 +2835,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 6-8",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q22",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Macronutrient functions and caloric values",
     "subtopic": "Macronutrient functions and caloric values",
-    "question": "How many calories per gram does carbohydrate provide in the course calculations?",
+    "question": "How many calories per gram does carbohydrate provide?",
     "choices": {
       "A": "4",
       "B": "9",
@@ -2692,7 +2852,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "7"
     },
     "correctAnswer": "A",
-    "explanation": "The course uses 4 calories per gram for carbohydrate in both label calculations and daily macro planning.",
+    "explanation": "Carbohydrate provides 4 calories per gram in label calculations and daily macronutrient planning.",
     "terminology": [
       {
         "term": "4",
@@ -2703,7 +2863,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 19; Macros - Carbohydrates, p. 11",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q23",
@@ -2718,7 +2880,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "9"
     },
     "correctAnswer": "D",
-    "explanation": "The fat lecture identifies triglycerides as the most concentrated macronutrient energy source at 9 kcal/g.",
+    "explanation": "Nutrition guidance identifies triglycerides as the most concentrated macronutrient energy source at 9 kcal/g.",
     "terminology": [
       {
         "term": "9",
@@ -2729,14 +2891,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 19; Macros - Fats, p. 10",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q24",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Macronutrient functions and caloric values",
     "subtopic": "Macronutrient functions and caloric values",
-    "question": "How many calories per gram does protein provide in the course calculations?",
+    "question": "How many calories per gram does protein provide?",
     "choices": {
       "A": "3",
       "B": "2",
@@ -2744,7 +2908,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "9"
     },
     "correctAnswer": "C",
-    "explanation": "Protein is assigned 4 calories per gram, the same caloric value used for carbohydrate in the lecture's 4/9/4 rule.",
+    "explanation": "Protein is assigned 4 calories per gram, the same caloric value used for carbohydrate 's 4/9/4 rule.",
     "terminology": [
       {
         "term": "4",
@@ -2755,7 +2919,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 19; Macros - Proteins, p. 13",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q25",
@@ -2781,14 +2947,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 22",
     "learningLevel": "Foundation",
     "retrievalAngle": "Source",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q26",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Carbohydrate structure, needs, and food preparation",
     "subtopic": "Carbohydrate structure, needs, and food preparation",
-    "question": "What does glycemic index estimate in the carbohydrate lecture?",
+    "question": "What does the glycemic index estimate?",
     "choices": {
       "A": "Calories supplied by dietary fat",
       "B": "The thermic effect of food",
@@ -2796,7 +2964,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "The rise in blood sugar after consuming 50 g of usable carbohydrate"
     },
     "correctAnswer": "D",
-    "explanation": "The lecture defines glycemic index by the blood-sugar rise after consuming 50 g of usable carbohydrate and notes that lower-GI foods have less effect on blood sugar.",
+    "explanation": "Glycemic index estimates the blood-glucose response after consuming 50 g of usable carbohydrate; lower-GI foods generally produce a smaller blood-glucose response.",
     "terminology": [
       {
         "term": "The rise in blood sugar after consuming 50 g of usable carbohydrate",
@@ -2807,14 +2975,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 26",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q27",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Carbohydrate structure, needs, and food preparation",
     "subtopic": "Carbohydrate structure, needs, and food preparation",
-    "question": "Which two monosaccharides combine to form sucrose in the lecture?",
+    "question": "Which two monosaccharides combine to form sucrose?",
     "choices": {
       "A": "Glucose and galactose",
       "B": "Glucose and glucose",
@@ -2833,7 +3003,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 8",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Structure -> Function",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q28",
@@ -2848,7 +3020,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Amylopectin contains protein, whereas amylose contains fat."
     },
     "correctAnswer": "B",
-    "explanation": "The lecture uses branching versus straight-chain structure to distinguish these starch components.",
+    "explanation": "Nutrition guidance uses branching versus straight-chain structure to distinguish these starch components.",
     "terminology": [
       {
         "term": "Carbohydrate structure, sources, and functions",
@@ -2859,7 +3031,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 9",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q29",
@@ -2874,7 +3048,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "FOS and resistant starches"
     },
     "correctAnswer": "D",
-    "explanation": "The carbohydrate lecture and digestion review identify prebiotic carbohydrates, fiber, and resistant starches as substrates for beneficial microbes.",
+    "explanation": "Prebiotic carbohydrates, fiber, and resistant starches can serve as substrates for beneficial microbes.",
     "terminology": [
       {
         "term": "FOS and resistant starches",
@@ -2885,7 +3059,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, pp. 9, 11; Digestion Review, p. 8",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Relationship",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q30",
@@ -2900,7 +3076,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Dietary cholesterol"
     },
     "correctAnswer": "A",
-    "explanation": "The lecture states that sufficient carbohydrate spares protein, while carbohydrate deficiency is associated with gluconeogenesis.",
+    "explanation": "Nutrition guidance states that sufficient carbohydrate spares protein, while carbohydrate deficiency is associated with gluconeogenesis.",
     "terminology": [
       {
         "term": "Protein",
@@ -2911,14 +3087,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 11",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q31",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "Which statement best summarizes the range of protein functions taught in the lecture?",
+    "question": "Which statement best summarizes the range of protein functions?",
     "choices": {
       "A": "Protein is used only to make glucose and has no tissue role.",
       "B": "Protein has structural, enzymatic, regulatory, immune, transport, fluid-balance, pH, and energy roles.",
@@ -2926,7 +3104,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Protein serves only as a carrier for dietary fat."
     },
     "correctAnswer": "B",
-    "explanation": "The protein lecture presents protein as multifunctional rather than assigning it to a single storage or energy role.",
+    "explanation": "Protein has multiple functions rather than serving only one storage or energy role.",
     "terminology": [
       {
         "term": "Protein functions, nitrogen balance, and protein quality",
@@ -2937,7 +3115,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 12",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q32",
@@ -2952,7 +3132,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Nitrogen intake multiplied by energy expenditure"
     },
     "correctAnswer": "C",
-    "explanation": "The lecture defines nitrogen balance as input minus output and uses it as an indicator related to protein status.",
+    "explanation": "Nutrition guidance defines nitrogen balance as input minus output and uses it as an indicator related to protein status.",
     "terminology": [
       {
         "term": "Nitrogen input minus nitrogen output",
@@ -2963,7 +3143,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 12",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q33",
@@ -2989,7 +3171,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 12",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Increase -> Consequence",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q34",
@@ -3004,7 +3188,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Normal growth"
     },
     "correctAnswer": "B",
-    "explanation": "Negative balance means output exceeds input; the lecture lists burns, severe injuries, fever, and fasting as examples.",
+    "explanation": "Negative balance means output exceeds input; Nutrition guidance lists burns, severe injuries, fever, and fasting as examples.",
     "terminology": [
       {
         "term": "Fasting or severe injury",
@@ -3015,14 +3199,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 12",
     "learningLevel": "Integrative",
     "retrievalAngle": "Decrease -> Consequence",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q35",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "What makes a protein complete according to the lecture?",
+    "question": "What makes a protein complete?",
     "choices": {
       "A": "It contains no nitrogen.",
       "B": "It contains only plant-derived amino acids.",
@@ -3041,14 +3227,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, pp. 5-6, 33-34",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q36",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "How does the lecture define an incomplete protein?",
+    "question": "How is an incomplete protein defined?",
     "choices": {
       "A": "A protein with no amino acids",
       "B": "A protein found only in dairy",
@@ -3056,7 +3244,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "A protein that cannot be digested at all"
     },
     "correctAnswer": "C",
-    "explanation": "The lecture lists grains, legumes, nuts, and seeds as examples that may be deficient in one or more essential amino acids.",
+    "explanation": "Grains, legumes, nuts, and seeds may be deficient in one or more essential amino acids.",
     "terminology": [
       {
         "term": "A protein deficient in one or more essential amino acids",
@@ -3067,7 +3255,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, pp. 33-34",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q37",
@@ -3082,7 +3272,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Wheat bran"
     },
     "correctAnswer": "B",
-    "explanation": "The protein lecture lists soybeans, quinoa, buckwheat, and spirulina as complete plant protein sources.",
+    "explanation": "Nutrition guidance lists soybeans, quinoa, buckwheat, and spirulina as complete plant protein sources.",
     "terminology": [
       {
         "term": "Quinoa",
@@ -3093,14 +3283,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 39; Interconnections diagram, p. 1",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Identification",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q38",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "Which statement about whey is supported by the protein lecture?",
+    "question": "Which statement about whey is correct?",
     "choices": {
       "A": "Whey is a complete protein found in milk.",
       "B": "Whey is an incomplete protein found only in grains.",
@@ -3108,7 +3300,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Whey is a type of dietary fiber."
     },
     "correctAnswer": "A",
-    "explanation": "The lecture identifies whey as a complete milk protein and notes that breast milk contains a higher whey proportion than cow's milk.",
+    "explanation": "Whey is a complete milk protein, and breast milk contains a higher whey proportion than cow's milk.",
     "terminology": [
       {
         "term": "Protein applications and amino-acid groups",
@@ -3119,14 +3311,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, pp. 40-41",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q39",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "Which set contains the branched-chain amino acids listed in the lecture?",
+    "question": "Which set contains the branched-chain amino acids?",
     "choices": {
       "A": "Glycine, alanine, and serine",
       "B": "Lysine, histidine, and methionine",
@@ -3145,7 +3339,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 43",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q40",
@@ -3160,7 +3356,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Energy production - beta oxidation; cell membranes - phospholipids; storage - triglycerides"
     },
     "correctAnswer": "D",
-    "explanation": "The fat lecture links fatty-acid oxidation with energy production, phospholipids with membrane structure, and triglycerides with energy storage.",
+    "explanation": "Nutrition guidance links fatty-acid oxidation with energy production, phospholipids with membrane structure, and triglycerides with energy storage.",
     "terminology": [
       {
         "term": "Lipid functions, essential fatty acids, and cooking",
@@ -3171,14 +3367,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Fats, p. 3",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q41",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Lipid functions, essential fats, and food sources",
     "subtopic": "Lipid functions, essential fats, and food sources",
-    "question": "Which effect is associated with trans fats in the lecture?",
+    "question": "Which effect is associated with trans fats?",
     "choices": {
       "A": "Elimination of all dietary cholesterol",
       "B": "Guaranteed prevention of inflammation",
@@ -3197,14 +3395,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Fats, p. 15",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q42",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Lipid functions, essential fats, and food sources",
     "subtopic": "Lipid functions, essential fats, and food sources",
-    "question": "How many fatty acids does the lecture identify as essential, and which are they?",
+    "question": "How many fatty acids are essential, and which are they?",
     "choices": {
       "A": "Two: alpha-linolenic acid and linoleic acid",
       "B": "Three: EPA, DHA, and arachidonic acid",
@@ -3212,7 +3412,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "One: oleic acid"
     },
     "correctAnswer": "A",
-    "explanation": "The lecture identifies omega-3 ALA and omega-6 linoleic acid as the two essential fatty acids.",
+    "explanation": "The two essential fatty acids are omega-3 alpha-linolenic acid (ALA) and omega-6 linoleic acid (LA).",
     "terminology": [
       {
         "term": "Two: alpha-linolenic acid and linoleic acid",
@@ -3223,14 +3423,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Fats, pp. 20-21",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q43",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Lipid functions, essential fats, and food sources",
     "subtopic": "Lipid functions, essential fats, and food sources",
-    "question": "What omega-6-to-omega-3 relationship does the lecture describe as a healthy general target?",
+    "question": "What omega-6-to-omega-3 relationship is commonly used as a general dietary target in this bank?",
     "choices": {
       "A": "Approximately 1:1 to 4:1 omega-3 to omega-6",
       "B": "Roughly 1:1 to 4:1 omega-6 to omega-3",
@@ -3249,7 +3451,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Fats, pp. 28-29",
     "learningLevel": "Integrative",
     "retrievalAngle": "Relationship",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q44",
@@ -3264,7 +3468,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "It does not dissolve in water and can act as a bulk laxative."
     },
     "correctAnswer": "D",
-    "explanation": "The lecture contrasts insoluble fiber with soluble fiber by describing it as water-insoluble, roughage-forming, and helpful for preventing constipation.",
+    "explanation": "Nutrition guidance contrasts insoluble fiber with soluble fiber by describing it as water-insoluble, roughage-forming, and helpful for preventing constipation.",
     "terminology": [
       {
         "term": "Carbohydrate structure, sources, and functions",
@@ -3275,14 +3479,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 24",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q45",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "BMR, RMR, and Mifflin-St Jeor",
     "subtopic": "BMR, RMR, and Mifflin-St Jeor",
-    "question": "Which expression matches the female Mifflin-St Jeor equation used in class?",
+    "question": "Which expression matches the female Mifflin-St Jeor equation?",
     "choices": {
       "A": "10(weight in kg) + 6.25(height in cm) + 5(age) - 161",
       "B": "10(weight in kg) + 6.25(height in cm) - 5(age) - 161",
@@ -3301,7 +3507,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q46",
@@ -3327,14 +3535,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 3",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q47",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "BMR, RMR, and Mifflin-St Jeor",
     "subtopic": "BMR, RMR, and Mifflin-St Jeor",
-    "question": "Using the female Mifflin-St Jeor equation from class, what resting-energy estimate results for a 30-year-old woman who weighs 60 kg and is 165 cm tall?",
+    "question": "Using the female Mifflin-St Jeor equation, what resting-energy estimate results for a 30-year-old woman who weighs 60 kg and is 165 cm tall?",
     "choices": {
       "A": "1,170 kcal/day",
       "B": "1,270 kcal/day",
@@ -3353,14 +3563,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 3",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q48",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "TEF, activity thermogenesis, and TDEE",
     "subtopic": "TEF, activity thermogenesis, and TDEE",
-    "question": "Which statement about TEF is supported by the lecture?",
+    "question": "Which statement about TEF is correct?",
     "choices": {
       "A": "It measures only calories used to chew.",
       "B": "It is the same as NEAT.",
@@ -3379,14 +3591,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 4",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q49",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "TEF, activity thermogenesis, and TDEE",
     "subtopic": "TEF, activity thermogenesis, and TDEE",
-    "question": "What does activity thermogenesis include in the course framework?",
+    "question": "What does activity thermogenesis include?",
     "choices": {
       "A": "Exercise plus NEAT",
       "B": "RMR plus BMR",
@@ -3405,7 +3619,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 6",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q50",
@@ -3431,7 +3647,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 6",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q51",
@@ -3457,7 +3675,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 7",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Relationship",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q52",
@@ -3472,7 +3692,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "An identical thermic response in every person"
     },
     "correctAnswer": "B",
-    "explanation": "The lecture identifies protein as having the highest thermic response among the macronutrients.",
+    "explanation": "Nutrition guidance identifies protein as having the highest thermic response among the macronutrients.",
     "terminology": [
       {
         "term": "A higher thermic response",
@@ -3483,7 +3703,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 4; transcript: 2,000 calories and TEF math",
     "learningLevel": "Integrative",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q53",
@@ -3509,14 +3731,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 8; transcript: under-eating and metabolic adaptation",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q54",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "Energy balance and metabolic adaptation",
     "subtopic": "Energy balance and metabolic adaptation",
-    "question": "What energy relationship describes homeostasis in the lecture's final summary?",
+    "question": "What energy relationship describes homeostasis?",
     "choices": {
       "A": "Energy intake is always greater than expenditure.",
       "B": "Energy expenditure stops when intake is adequate.",
@@ -3524,7 +3748,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "TEF replaces physical activity."
     },
     "correctAnswer": "C",
-    "explanation": "The lecture presents matching intake and expenditure as the ideal condition for maintaining energy homeostasis.",
+    "explanation": "Energy homeostasis occurs when energy intake and energy expenditure are matched.",
     "terminology": [
       {
         "term": "Energy balance and metabolic adaptation",
@@ -3535,14 +3759,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 13",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q55",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "Energy balance and metabolic adaptation",
     "subtopic": "Energy balance and metabolic adaptation",
-    "question": "If a person's measured TDEE is 2,200 calories and other conditions remain stable, what intake is the lecture's mathematical starting point for weight maintenance?",
+    "question": "If a person's measured TDEE is 2,200 calories and other conditions remain stable, what intake is the mathematical starting point for weight maintenance?",
     "choices": {
       "A": "1,700 calories",
       "B": "2,200 calories",
@@ -3550,7 +3776,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "1,100 calories"
     },
     "correctAnswer": "B",
-    "explanation": "The review explains that matching intake to TDEE is the mathematical starting point for maintaining weight, while clinical complexity can affect real-world outcomes.",
+    "explanation": "Matching intake to TDEE is the mathematical starting point for maintaining weight, although clinical complexity can affect real-world outcomes.",
     "terminology": [
       {
         "term": "2,200 calories",
@@ -3561,14 +3787,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introduction to Energy Needs, p. 13",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Prediction",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q56",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "Wearables and applied caloric calculation",
     "subtopic": "Wearables and applied caloric calculation",
-    "question": "If a wearable reports a total daily expenditure that already includes resting expenditure, how should it be used in the course's simplified framework?",
+    "question": "If a wearable reports a total daily expenditure that already includes resting expenditure, how should it be interpreted?",
     "choices": {
       "A": "Use it as the total daily expenditure estimate rather than adding RMR again.",
       "B": "Add it to RMR and TEF again.",
@@ -3576,7 +3804,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Divide it by 4 to obtain RMR."
     },
     "correctAnswer": "A",
-    "explanation": "The instructor distinguishes a total device estimate from an activity-only estimate and warns against double-counting resting expenditure.",
+    "explanation": "A total device estimate differs from an activity-only estimate and a total device estimate from an activity-only estimate and warns against double-counting resting expenditure.",
     "terminology": [
       {
         "term": "Wearables and applied caloric calculation",
@@ -3587,14 +3815,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: use total device expenditure as TDEE rather than adding it to RMR",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Misconception Detection",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q57",
     "unit": "Energy Expenditure and Caloric Calculations",
     "conceptBlock": "Wearables and applied caloric calculation",
     "subtopic": "Wearables and applied caloric calculation",
-    "question": "Using the lecture's 1,700-calorie example, how many grams of carbohydrate correspond to 50% of calories?",
+    "question": "A 1,700-calorie intake provides 50% of calories from carbohydrate. About how many grams of carbohydrate is that?",
     "choices": {
       "A": "425 g",
       "B": "56 g",
@@ -3613,7 +3843,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, pp. 19-23; transcript: 1,700-calorie 50/30/20 example",
     "learningLevel": "Integrative",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q58",
@@ -3628,7 +3860,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "The patient's RMR only"
     },
     "correctAnswer": "A",
-    "explanation": "The review specifically emphasizes identifying the carbohydrate, fat, and protein gram values before calculating their calorie contributions.",
+    "explanation": "The evidence specifically emphasizes identifying the carbohydrate, fat, and protein gram values before calculating their calorie contributions.",
     "terminology": [
       {
         "term": "Grams of carbohydrate, fat, and protein",
@@ -3639,7 +3871,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: pull carbohydrate, fat, and protein grams from a label; CN - Macros - Intro, p. 19",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q59",
@@ -3665,7 +3899,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: 4/9/4 label math",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q60",
@@ -3691,14 +3927,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: determine what percentage of total calories comes from fat, carbohydrate, or protein",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q61",
     "unit": "Nutrition Labels, DRIs, and Macronutrient Math",
     "conceptBlock": "Percent Daily Value and label limitations",
     "subtopic": "Percent Daily Value and label limitations",
-    "question": "What percentage does the instructor want students to calculate from a label when asking how much of the food's energy comes from fat?",
+    "question": "Which percentage should be calculated to determine how much of a food's energy comes from fat?",
     "choices": {
       "A": "The label's Percent Daily Value for fat",
       "B": "Fat grams divided by total grams of ingredients",
@@ -3706,7 +3944,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Fat calories divided by total calories"
     },
     "correctAnswer": "D",
-    "explanation": "The review distinguishes the calculated percentage of total calories contributed by a macronutrient from the label's Percent Daily Value.",
+    "explanation": "Calculate fat calories divided by total calories. This differs from the Percent Daily Value shown on a label.",
     "terminology": [
       {
         "term": "Fat calories divided by total calories",
@@ -3717,7 +3955,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: calculated macro percentages are not Percent Daily Value",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q62",
@@ -3732,7 +3972,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Every individual's measured TDEE"
     },
     "correctAnswer": "B",
-    "explanation": "The review calls the 2,000-calorie basis a generalization and cautions that it may not match an individual's needs.",
+    "explanation": "The evidence calls the 2,000-calorie basis a generalization and cautions that it may not match an individual's needs.",
     "terminology": [
       {
         "term": "A 2,000-calorie diet",
@@ -3743,7 +3983,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: Percent Daily Value percentages are based on a 2,000-calorie diet",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q63",
@@ -3758,7 +4000,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "The label uses the patient's RMR."
     },
     "correctAnswer": "C",
-    "explanation": "The instructor says easy test numbers will usually add cleanly, but real labels may not because carbohydrate digestibility and fiber are not perfectly represented.",
+    "explanation": "Values calculated from a nutrition label may not add perfectly because carbohydrate digestibility and fiber are not represented in a perfectly uniform way.",
     "terminology": [
       {
         "term": "Percent Daily Value and label limitations",
@@ -3769,7 +4011,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Transcript: calculated calories may not match labels perfectly because of fiber and digestibility",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q64",
@@ -3784,7 +4028,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "All carbohydrate that can be digested"
     },
     "correctAnswer": "A",
-    "explanation": "The review calls attention to added sugars as a distinct label item rather than treating all carbohydrate as added sugar.",
+    "explanation": "The evidence calls attention to added sugars as a distinct label item rather than treating all carbohydrate as added sugar.",
     "terminology": [
       {
         "term": "Sugars added during processing or formulation",
@@ -3795,7 +4039,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 16; transcript: added-sugar emphasis",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q65",
@@ -3821,7 +4067,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 16",
     "learningLevel": "Foundation",
     "retrievalAngle": "Sequence",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q66",
@@ -3832,11 +4080,11 @@ document.addEventListener("DOMContentLoaded", function() {
     "choices": {
       "A": "It identifies added sugars but not allergens.",
       "B": "It separately names allergens that may be hidden by collective or unfamiliar wording.",
-      "C": "It replaces the ingredient list for allergy review.",
+      "C": "It replaces the ingredient list as the primary source of allergy information.",
       "D": "It reports resting metabolism rather than ingredients."
     },
     "correctAnswer": "B",
-    "explanation": "The lecture lists milk, egg, fish, crustacean shellfish, tree nuts, wheat, peanuts, and soybeans as examples requiring clear attention.",
+    "explanation": "Nutrition guidance lists milk, egg, fish, crustacean shellfish, tree nuts, wheat, peanuts, and soybeans as examples requiring clear attention.",
     "terminology": [
       {
         "term": "Ingredients and allergen labeling",
@@ -3847,7 +4095,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 16; transcript: top-allergen callout",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q67",
@@ -3862,7 +4112,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "153 g"
     },
     "correctAnswer": "A",
-    "explanation": "Thirty percent of 1,700 is 510 calories; 510 divided by 9 calories per gram is about 56.7 g, shown as 56 g in the lecture example.",
+    "explanation": "Thirty percent of 1,700 is 510 calories; 510 divided by 9 calories per gram is about 56.7 g, shown as 56 g example.",
     "terminology": [
       {
         "term": "56 g",
@@ -3873,7 +4123,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "CN - Macros - Intro, p. 19; transcript: 1,700 calories at 30% fat",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q68",
@@ -3899,14 +4151,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Proteins, p. 17; transcript: 0.8 g/kg/day",
     "learningLevel": "Integrative",
     "retrievalAngle": "Simple Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q69",
     "unit": "Digestion, Absorption, and Metabolic Integration",
     "conceptBlock": "GI tract functions and fluid handling",
     "subtopic": "GI tract functions and fluid handling",
-    "question": "Which description best captures the major functions of the GI tract in the digestion review?",
+    "question": "Which description best captures the major functions of the GI tract?",
     "choices": {
       "A": "It digests and absorbs food, provides barrier and immune functions, and participates in regulatory signaling.",
       "B": "It produces skeletal muscle and filters blood like the kidneys.",
@@ -3914,7 +4168,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "It stores body fat but does not participate in absorption."
     },
     "correctAnswer": "A",
-    "explanation": "The review describes digestion and absorption alongside physical and immunologic barrier functions and gut-brain signaling.",
+    "explanation": "The GI tract supports digestion and absorption, physical and immunologic barrier functions, and gut-brain signaling.",
     "terminology": [
       {
         "term": "GI tract functions and fluid handling",
@@ -3925,14 +4179,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Digestion Review, p. 4",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q70",
     "unit": "Digestion, Absorption, and Metabolic Integration",
     "conceptBlock": "GI tract functions and fluid handling",
     "subtopic": "GI tract functions and fluid handling",
-    "question": "A student says that plant residue reaching the colon is simply wasted because humans cannot digest it. Which response best matches the digestion review?",
+    "question": "Plant residue reaches the colon and is not digested by human enzymes. What can happen next?",
     "choices": {
       "A": "Most food is absorbed, but some plant residue reaches the colon and can be fermented by microbes, producing some energy.",
       "B": "Nearly all food remains unabsorbed until it is eliminated unchanged.",
@@ -3940,7 +4196,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Only animal protein reaches the colon and can be fermented there."
     },
     "correctAnswer": "A",
-    "explanation": "The review estimates that most food is digested and absorbed while noting that unabsorbed plant residue can reach the colon, where microbial fermentation contributes some energy.",
+    "explanation": "Most food is digested and absorbed, but unabsorbed plant residue can reach the colon, where microbial fermentation contributes some energy.",
     "terminology": [
       {
         "term": "GI tract functions and fluid handling",
@@ -3951,7 +4207,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Digestion Review, p. 7",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Misconception Detection",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q71",
@@ -3966,7 +4224,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "The colon performs most digestion; the small intestine absorbs no fluid."
     },
     "correctAnswer": "B",
-    "explanation": "The digestion review assigns most digestion to the small intestine and remaining fluid and electrolyte absorption to the colon and rectum.",
+    "explanation": "Digestive physiology assigns most digestion to the small intestine and remaining fluid and electrolyte absorption to the colon and rectum.",
     "terminology": [
       {
         "term": "GI tract functions and fluid handling",
@@ -3977,14 +4235,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Digestion Review, p. 7",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Location",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q72",
     "unit": "Digestion, Absorption, and Metabolic Integration",
     "conceptBlock": "Portal transport and microbiota",
     "subtopic": "Portal transport and microbiota",
-    "question": "After absorption, where does the digestion review place most nutrients before storage, transformation, or release?",
+    "question": "After absorption, where do most nutrients travel before storage, transformation, or release?",
     "choices": {
       "A": "Into the lungs",
       "B": "Into the skeletal muscle before the blood",
@@ -4003,7 +4263,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Digestion Review, p. 7",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Sequence",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q73",
@@ -4018,7 +4280,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Intestinal immune activity is eliminated."
     },
     "correctAnswer": "A",
-    "explanation": "The digestion review identifies SCFAs as products that fuel enterocytes, stimulate renewal and function, enhance immune function, and regulate gene expression.",
+    "explanation": "Digestive physiology identifies SCFAs as products that fuel enterocytes, stimulate renewal and function, enhance immune function, and regulate gene expression.",
     "terminology": [
       {
         "term": "Portal transport and microbiota",
@@ -4029,14 +4291,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Digestion Review, p. 8; Macros - Carbohydrates, pp. 22-25",
     "learningLevel": "Integrative",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q74",
     "unit": "Digestion, Absorption, and Metabolic Integration",
     "conceptBlock": "Lipid absorption",
     "subtopic": "Lipid absorption",
-    "question": "Which sequence best describes dietary triglyceride handling in the fat lecture?",
+    "question": "Which sequence best describes dietary triglyceride handling?",
     "choices": {
       "A": "Triglycerides become amino acids in the colon.",
       "B": "Intact triglycerides bypass the intestinal wall through the portal vein.",
@@ -4055,7 +4319,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Fats, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Sequence",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q75",
@@ -4081,14 +4347,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Interconnections of Major Metaboloc Pathways, p. 1",
     "learningLevel": "Integrative",
     "retrievalAngle": "Integration",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q76",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Food quality and antioxidants",
     "subtopic": "Food quality and antioxidants",
-    "question": "Which practical recommendation most closely matches the introductory lecture?",
+    "question": "Which practical recommendation best supports a nutrient-dense dietary pattern?",
     "choices": {
       "A": "Choose one named diet for every person and avoid all natural sugars.",
       "B": "Treat food quality as irrelevant once calorie intake is known.",
@@ -4096,7 +4364,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Emphasize minimally processed foods and plants, consider food sources, and limit highly processed foods."
     },
     "correctAnswer": "D",
-    "explanation": "The lecture returns to real food, fruits and vegetables, thoughtful sourcing, and limiting processed food.",
+    "explanation": "A nutrient-dense dietary pattern emphasizes real foods, fruits and vegetables, thoughtful sourcing, and limiting processed foods.",
     "terminology": [
       {
         "term": "Real food, phytonutrients, and antioxidants",
@@ -4107,14 +4375,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 18-25; transcript: mostly plants and real food",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q77",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Food quality and antioxidants",
     "subtopic": "Food quality and antioxidants",
-    "question": "What are phytonutrients in the context of the introductory lecture?",
+    "question": "What are phytonutrients?",
     "choices": {
       "A": "Digestive enzymes produced only by the pancreas",
       "B": "Plant compounds such as phenolics, terpenoids, and pigments that can have biological effects",
@@ -4122,7 +4392,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Calories found only in animal fat"
     },
     "correctAnswer": "B",
-    "explanation": "The lecture connects plant foods with diverse phytonutrients and natural antioxidants.",
+    "explanation": "Phytonutrients are bioactive compounds in plant foods that contribute to their diversity of natural antioxidants.",
     "terminology": [
       {
         "term": "Real food, phytonutrients, and antioxidants",
@@ -4133,14 +4403,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 21-25",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q78",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Detoxification and metabolic pathways",
     "subtopic": "Detoxification and metabolic pathways",
-    "question": "Which statement about reactive oxygen species (ROS) is most consistent with the course discussion?",
+    "question": "Which statement about reactive oxygen species (ROS) is correct?",
     "choices": {
       "A": "Excess ROS can contribute to oxidative stress when cellular defenses do not adequately balance them.",
       "B": "ROS are nutrients that always improve detoxification.",
@@ -4159,14 +4431,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 27, 31; transcript: Phase I and ROS emphasis",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Mechanism",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q79",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Food quality and antioxidants",
     "subtopic": "Food quality and antioxidants",
-    "question": "Which caution about antioxidant supplements is consistent with the introductory lecture?",
+    "question": "Which caution about antioxidant supplements is appropriate?",
     "choices": {
       "A": "Isolated antioxidant supplements are automatically equivalent to the full combination of compounds in whole foods.",
       "B": "Whole foods contain no biologically active plant compounds.",
@@ -4174,7 +4448,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Antioxidants can act only after all dietary fiber has been removed."
     },
     "correctAnswer": "C",
-    "explanation": "The lecture emphasizes diverse phytonutrients and natural antioxidants in plant foods while cautioning against assuming that isolated supplements provide the same value as whole foods.",
+    "explanation": "Plant foods provide diverse phytonutrients and natural antioxidants; isolated supplements should not automatically be assumed to provide the same value as whole foods.",
     "terminology": [
       {
         "term": "Real food, phytonutrients, and antioxidants",
@@ -4185,14 +4459,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Introductory Nutritional Concepts, pp. 21-25",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Misconception Detection",
-    "reviewPriority": "instructor_exam_review"
+    "reviewPriority": "instructor_exam_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q80",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Detoxification and metabolic pathways",
     "subtopic": "Detoxification and metabolic pathways",
-    "question": "How does the course describe the relationship between glycolysis and gluconeogenesis?",
+    "question": "What is the relationship between glycolysis and gluconeogenesis?",
     "choices": {
       "A": "Gluconeogenesis is the digestion of dietary fat.",
       "B": "Both pathways always proceed at exactly the same rate.",
@@ -4200,7 +4476,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Both occur; their relative rates determine the net direction."
     },
     "correctAnswer": "D",
-    "explanation": "The review describes glycolysis and gluconeogenesis as occurring at the same time, with the pathway proceeding faster determining the net outcome.",
+    "explanation": "The evidence describes glycolysis and gluconeogenesis as occurring at the same time, with the pathway proceeding faster determining the net outcome.",
     "terminology": [
       {
         "term": "Glycolysis and gluconeogenesis",
@@ -4211,40 +4487,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Macros - Carbohydrates, p. 4; Interconnections diagram, p. 1; transcript: both pathways can occur",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Regulation",
-    "reviewPriority": "both"
-  },
-  {
-    "id": "Q81",
-    "unit": "Nutrition Quality, Disease, and Detoxification",
-    "conceptBlock": "Chronic disease prevention and lifestyle",
-    "subtopic": "Chronic disease prevention and lifestyle",
-    "question": "Which ordering matches the JAMA actual-causes list reproduced in the upper-tri review notes?",
-    "choices": {
-      "A": "Tobacco use; poor diet/lack of exercise; alcohol consumption",
-      "B": "Alcohol consumption; tobacco use; poor diet/lack of exercise",
-      "C": "Poor diet/lack of exercise; alcohol consumption; tobacco use",
-      "D": "Tobacco use; alcohol consumption; poor diet/lack of exercise"
-    },
-    "correctAnswer": "A",
-    "explanation": "The upper-tri notes reproduce the JAMA ordering as tobacco use first, poor diet/lack of exercise second, and alcohol consumption third. The wording is source-specific because the instructor transcript separately discusses a different dietary-risk analysis.",
-    "terminology": [
-      {
-        "term": "Tobacco use; poor diet/lack of exercise; alcohol consumption",
-        "definition": "The upper-tri notes reproduce the JAMA ordering as tobacco use first, poor diet/lack of exercise second, and alcohol consumption third. The wording is source-specific because the instructor transcript separately discusses a different dietary-risk analysis."
-      }
-    ],
-    "source": "from Illiana- tri 5 Nutrition Exam 1 Review Notes.pdf",
-    "sourceAnchor": "Illiana review notes, p. 1",
-    "learningLevel": "Applied Reinforcement",
-    "retrievalAngle": "Comparison",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q82",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Epigenetics and lifestyle",
     "subtopic": "Epigenetics and lifestyle",
-    "question": "Which statement best matches the course definition of epigenetics?",
+    "question": "Which statement best defines epigenetics?",
     "choices": {
       "A": "A change in phenotype that must result from a permanent alteration of the DNA sequence",
       "B": "A heritable change in phenotype or gene expression that does not require altering the DNA sequence",
@@ -4252,7 +4504,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "A change in gene expression that can occur only after a new DNA mutation"
     },
     "correctAnswer": "B",
-    "explanation": "The notes distinguish epigenetic regulation from mutation: phenotype or gene expression can change—and may be heritable—without changing the underlying DNA sequence.",
+    "explanation": "Epigenetic regulation can change phenotype or gene expression—and may be heritable—without changing the underlying DNA sequence.",
     "terminology": [
       {
         "term": "Epigenetics and lifestyle",
@@ -4263,14 +4515,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 1; instructor transcript, pp. 4-5",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Definition -> Application",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q83",
     "unit": "Instructor Exam Review - Highest Probability",
     "conceptBlock": "Functional medicine principles",
     "subtopic": "Functional medicine principles",
-    "question": "Which approach best represents the functional-medicine principle emphasized in the supplied review?",
+    "question": "Which approach best represents a functional-medicine approach?",
     "choices": {
       "A": "Select a symptom-specific intervention first and evaluate upstream contributors only if it fails",
       "B": "Apply the population-average protocol without modifying it for the patient's context",
@@ -4278,7 +4532,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Use one abnormal laboratory result as the primary explanation for a multisystem presentation"
     },
     "correctAnswer": "C",
-    "explanation": "The review describes functional medicine as patient-centered and systems-oriented: it asks how and why illness occurs, considers the patient in context, and targets upstream contributors rather than only downstream manifestations.",
+    "explanation": "A functional-medicine approach is patient-centered and systems-oriented: it asks how and why illness occurs, considers the patient in context, and addresses upstream contributors.",
     "terminology": [
       {
         "term": "Functional medicine principles",
@@ -4289,14 +4543,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 1; instructor transcript, pp. 5-6",
     "learningLevel": "Integrative",
     "retrievalAngle": "Principle -> Application",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q84",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Supplement safety and regulation",
     "subtopic": "Supplement safety and regulation",
-    "question": "How does the supplied review characterize FDA regulation of dietary supplements?",
+    "question": "Which statement correctly describes how dietary supplements are regulated in the United States?",
     "choices": {
       "A": "Supplements are not regulated under the same framework as conventional foods and drugs",
       "B": "Supplements undergo the same premarket approval process used for prescription drugs",
@@ -4304,7 +4560,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Manufacturers must demonstrate clinical efficacy before a supplement can be marketed"
     },
     "correctAnswer": "A",
-    "explanation": "The review's tested comparison is that dietary supplements are not regulated under the same framework as conventional foods and drugs; it does not say that supplements are entirely free from oversight.",
+    "explanation": "Dietary supplements are not regulated under the same framework as conventional foods and drugs, but they are not entirely free from oversight.",
     "terminology": [
       {
         "term": "Supplement regulation",
@@ -4315,14 +4571,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q85",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Supplement safety and regulation",
     "subtopic": "Supplement safety and regulation",
-    "question": "A patient with a serious allergy asks about a cheap online supplement from an unknown third-party seller. Which response best matches the supplied review?",
+    "question": "A patient with a serious allergy considers a cheap online supplement from an unknown third-party seller. Which response is most appropriate?",
     "choices": {
       "A": "Rely on the ingredient label alone because it guarantees that no allergen is present",
       "B": "Treat a low price as evidence that the product has moved rapidly through inventory",
@@ -4330,7 +4588,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Use caution because shelf history and label completeness may be uncertain, especially with a serious allergy"
     },
     "correctAnswer": "D",
-    "explanation": "The review raises two independent cautions: a third-party product may have an uncertain shelf history, and a serious allergy warrants caution even when the label appears reassuring.",
+    "explanation": "Shelf history and label completeness may be uncertain with third-party products, so serious allergies warrant caution even when a label appears reassuring.",
     "terminology": [
       {
         "term": "Supplement safety",
@@ -4341,40 +4599,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 2",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "upper_tri_review"
-  },
-  {
-    "id": "Q86",
-    "unit": "Nutrition Quality, Disease, and Detoxification",
-    "conceptBlock": "Food quality and antioxidants",
-    "subtopic": "Food quality and antioxidants",
-    "question": "Which pairing matches the supplied review notes?",
-    "choices": {
-      "A": "Clean 15 means foods prioritized for organic purchase; Dirty Dozen means lower-residue conventional choices",
-      "B": "Clean 15 means foods least likely to contain pesticide residue when conventionally grown; Dirty Dozen means foods recommended organic",
-      "C": "Clean 15 and Dirty Dozen both identify foods that should be purchased only when organic",
-      "D": "Clean 15 and Dirty Dozen both identify conventional foods expected to have similarly low pesticide residue"
-    },
-    "correctAnswer": "B",
-    "explanation": "The review uses Clean 15 for foods less likely to carry pesticide residue when conventionally grown and Dirty Dozen for foods prioritized for organic purchase.",
-    "terminology": [
-      {
-        "term": "Pesticide-residue food lists",
-        "definition": "The review uses Clean 15 for foods less likely to carry pesticide residue when conventionally grown and Dirty Dozen for foods prioritized for organic purchase."
-      }
-    ],
-    "source": "from Illiana- tri 5 Nutrition Exam 1 Review Notes.pdf; EXAM 1 Review Transcripts from lectures.pdf",
-    "sourceAnchor": "Illiana review notes, p. 1; instructor transcript, p. 7",
-    "learningLevel": "Applied Reinforcement",
-    "retrievalAngle": "Matching",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q87",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Chronic disease prevention and lifestyle",
     "subtopic": "Chronic disease prevention and lifestyle",
-    "question": "Which potassium-to-sodium relationship is identified in the supplied review as a research-supported target?",
+    "question": "Which potassium-to-sodium ratio represents a substantially higher potassium intake relative to sodium?",
     "choices": {
       "A": "Less than 1:2 potassium to sodium, the pattern the notes associate with the SAD",
       "B": "Approximately 2:1 potassium to sodium",
@@ -4382,7 +4616,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Greater than 5:1 sodium to potassium"
     },
     "correctAnswer": "C",
-    "explanation": "The notes contrast a SAD pattern below 1:2 K:Na with a research-supported target above 5:1 K:Na. Choice D reverses the numerator and denominator.",
+    "explanation": "A potassium-to-sodium ratio greater than 5:1 represents substantially more potassium relative to sodium; a ratio below 1:2 reverses that pattern.",
     "terminology": [
       {
         "term": "Greater than 5:1 potassium to sodium",
@@ -4393,14 +4627,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 2",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q88",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Carbohydrate structure, needs, and food preparation",
     "subtopic": "Carbohydrate structure, needs, and food preparation",
-    "question": "Which carbohydrate RDA comparison matches the supplied review notes?",
+    "question": "Which carbohydrate RDA comparison is correct?",
     "choices": {
       "A": "45 g/day for adults and 65 g/day during pregnancy",
       "B": "130 g/day for adults and 130 g/day during pregnancy",
@@ -4408,7 +4644,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "130 g/day for adults and 175 g/day during pregnancy and lactation"
     },
     "correctAnswer": "D",
-    "explanation": "The review lists 130 g/day as the adult carbohydrate RDA and 175 g/day for pregnancy and lactation.",
+    "explanation": "The carbohydrate RDA is 130 g/day for adults and 175 g/day during pregnancy and lactation.",
     "terminology": [
       {
         "term": "130 g/day for adults and 175 g/day during pregnancy and lactation",
@@ -4419,14 +4655,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 2",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q89",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Fiber and digestive protection",
     "subtopic": "Fiber and digestive protection",
-    "question": "Which combination best matches the fiber functions emphasized in the supplied material?",
+    "question": "Which combination best describes key fiber functions?",
     "choices": {
       "A": "Shorter bowel transit, toxin binding, support for beneficial flora, and lower risk of digestive disorders",
       "B": "Longer bowel transit, reduced microbial fermentation, and higher post-meal glucose curves",
@@ -4434,7 +4672,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Lower cholesterol through complete inhibition of colonic fermentation"
     },
     "correctAnswer": "A",
-    "explanation": "The lecture and review notes connect fiber with decreased bowel transit time, toxin handling, beneficial flora, improved glucose curves, lower cholesterol, and reduced digestive-disease risk. The distractors incorrectly reverse or isolate those relationships.",
+    "explanation": "Fiber can shorten bowel transit time, support beneficial flora, improve glucose curves, lower cholesterol, and reduce digestive-disease risk.",
     "terminology": [
       {
         "term": "Fiber functions and digestive protection",
@@ -4445,40 +4683,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 3; instructor transcript, pp. 28-29",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "both"
-  },
-  {
-    "id": "Q90",
-    "unit": "Macronutrient Foundations",
-    "conceptBlock": "Carbohydrate structure, needs, and food preparation",
-    "subtopic": "Carbohydrate structure, needs, and food preparation",
-    "question": "Which paired description matches the boiled-potato example in the upper-tri carbohydrate review?",
-    "choices": {
-      "A": "Higher amylose and a lower glycemic effect",
-      "B": "Higher amylopectin and a higher glycemic effect",
-      "C": "Higher amylopectin and a lower glycemic effect",
-      "D": "Higher amylose and a higher glycemic effect"
-    },
-    "correctAnswer": "B",
-    "explanation": "The upper-tri notes pair the boiled-potato example with high amylopectin and a greater effect on blood sugar. This tests the source's stated association; it does not claim that boiling chemically converts amylose into amylopectin.",
-    "terminology": [
-      {
-        "term": "Higher amylopectin and a higher glycemic effect",
-        "definition": "The upper-tri notes pair the boiled-potato example with high amylopectin and a greater effect on blood sugar. This tests the source's stated association; it does not claim that boiling chemically converts amylose into amylopectin."
-      }
-    ],
-    "source": "from Illiana- tri 5 Nutrition Exam 1 Review Notes.pdf",
-    "sourceAnchor": "Illiana review notes, p. 3",
-    "learningLevel": "Applied Reinforcement",
-    "retrievalAngle": "Structure -> Application",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q91",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "According to the athlete-protein evidence summarized in the supplied review, what happens above about 1.6 g/kg/day?",
+    "question": "In resistance-training evidence, what was observed when protein intake rose above about 1.6 g/kg/day?",
     "choices": {
       "A": "No additional fat-free-mass gains occur once intake exceeds the 0.8 g/kg/day adult RDA",
       "B": "Additional intake does not produce further resistance-training gains in fat-free mass in the cited study",
@@ -4497,14 +4711,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4; instructor transcript, pp. 39-40",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Threshold -> Consequence",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q92",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Protein function, quality, and applications",
     "subtopic": "Protein function, quality, and applications",
-    "question": "What whey proportion does the supplied protein review associate with breast milk?",
+    "question": "About what proportion of breast-milk protein is whey?",
     "choices": {
       "A": "About 5-10%",
       "B": "About 20-30%",
@@ -4512,7 +4728,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "About 60-80%"
     },
     "correctAnswer": "D",
-    "explanation": "The protein review states that approximately 60-80% of the proteins in breast milk are whey type.",
+    "explanation": "Approximately 60–80% of the proteins in breast milk are whey type.",
     "terminology": [
       {
         "term": "About 60-80%",
@@ -4523,14 +4739,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4; instructor transcript, p. 41",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q93",
     "unit": "Digestion, Absorption, and Metabolic Integration",
     "conceptBlock": "Probiotic versus prebiotic examples",
     "subtopic": "Probiotic versus prebiotic examples",
-    "question": "Which pairing correctly distinguishes a probiotic from a prebiotic in the supplied review?",
+    "question": "Which pairing correctly distinguishes a probiotic from a prebiotic?",
     "choices": {
       "A": "Bifidobacterium bifidum is a probiotic, while FOS is a prebiotic carbohydrate source",
       "B": "Bifidobacterium bifidum and FOS are both probiotic organisms",
@@ -4549,7 +4767,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4; instructor transcript, pp. 24-26",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q94",
@@ -4575,14 +4795,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 3; instructor transcript, pp. 34-36; StudyOS review, p. 7",
     "learningLevel": "Integrative",
     "retrievalAngle": "Mechanism",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q95",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Lipid functions, essential fats, and food sources",
     "subtopic": "Lipid functions, essential fats, and food sources",
-    "question": "Which statement about omega-9 in the supplied review is correct?",
+    "question": "Which statement about omega-9 is correct?",
     "choices": {
       "A": "Omega-9 is the same as alpha-linolenic acid and is essential",
       "B": "Omega-9 is the same as linoleic acid and is essential",
@@ -4590,7 +4812,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Omega-9 includes monounsaturated oleic acid and is not one of the two essential fatty acids"
     },
     "correctAnswer": "D",
-    "explanation": "The notes associate omega-9 with monounsaturated oleic acid and identify ALA and LA, not omega-9, as the essential fatty acids.",
+    "explanation": "Omega-9 includes monounsaturated oleic acid and is not one of the two essential fatty acids.",
     "terminology": [
       {
         "term": "Omega-9 and oleic acid",
@@ -4601,14 +4823,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 3; instructor transcript, pp. 32-34",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q96",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Lipid functions, essential fats, and food sources",
     "subtopic": "Lipid functions, essential fats, and food sources",
-    "question": "Which source pairing matches the essential fatty acids taught in the supplied review?",
+    "question": "Which source pairing matches the essential fatty acids?",
     "choices": {
       "A": "ALA is associated with corn and safflower oils, while LA is associated with flaxseed oil",
       "B": "ALA is associated with flaxseed oil, while LA is associated with corn, safflower, sunflower, soybean, or walnut sources",
@@ -4616,7 +4840,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "ALA is associated with animal products, while LA is associated only with flaxseed oil"
     },
     "correctAnswer": "B",
-    "explanation": "The review pairs omega-3 ALA with flaxseed oil and omega-6 LA with corn, safflower, sunflower, soybean, and walnut sources. Olive/canola examples belong to the omega-9/oleic-acid discussion.",
+    "explanation": "Omega-3 ALA is associated with flaxseed oil, while omega-6 LA is associated with corn, safflower, sunflower, soybean, and walnut sources. Olive and canola oils are associated with omega-9 oleic acid.",
     "terminology": [
       {
         "term": "Essential fatty-acid food sources",
@@ -4627,40 +4851,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 3; instructor transcript, pp. 33-34",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Matching",
-    "reviewPriority": "both"
-  },
-  {
-    "id": "Q97",
-    "unit": "Digestion, Absorption, and Metabolic Integration",
-    "conceptBlock": "Microbial DNA comparison",
-    "subtopic": "Microbial DNA comparison",
-    "question": "What comparison is stated in the supplied upper-tri review regarding bacterial DNA?",
-    "choices": {
-      "A": "The notes use an estimate of about 100 times more bacterial DNA than human DNA",
-      "B": "The notes describe bacterial and human DNA contributions as approximately equal",
-      "C": "The notes describe about 10 times more human DNA than bacterial DNA",
-      "D": "The notes treat bacterial DNA only as transient food material rather than part of the microbiota"
-    },
-    "correctAnswer": "A",
-    "explanation": "The upper-tri notes use the approximately 100-to-1 comparison as a microbiota memory anchor. The item intentionally asks what the supplied notes state rather than extending the estimate beyond that source.",
-    "terminology": [
-      {
-        "term": "Microbial DNA comparison",
-        "definition": "The upper-tri notes use the approximately 100-to-1 comparison as a microbiota memory anchor. The item intentionally asks what the supplied notes state rather than extending the estimate beyond that source."
-      }
-    ],
-    "source": "from Illiana- tri 5 Nutrition Exam 1 Review Notes.pdf",
-    "sourceAnchor": "Illiana review notes, p. 4",
-    "learningLevel": "Foundation",
-    "retrievalAngle": "Quantitative Comparison",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q98",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Food quality and antioxidants",
     "subtopic": "Food quality and antioxidants",
-    "question": "Which list matches the antioxidant memory aid taught in the supplied review?",
+    "question": "Which list matches the antioxidant memory aid ACES/Z?",
     "choices": {
       "A": "Vitamins A, C, and D with selenium and zinc",
       "B": "Vitamins A, E, and K with selenium and iron",
@@ -4668,7 +4868,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Vitamins C, D, and E with magnesium and zinc"
     },
     "correctAnswer": "C",
-    "explanation": "ACES/Z is the course memory aid for vitamins A, C, and E plus selenium and zinc. The alternatives substitute other vitamins or minerals from the same nutrient domain.",
+    "explanation": "ACES/Z represents vitamins A, C, and E plus selenium and zinc.",
     "terminology": [
       {
         "term": "Vitamin A, vitamin C, vitamin E, selenium, and zinc",
@@ -4679,14 +4879,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4; instructor transcript, pp. 16-20",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q99",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Folate metabolism and homocysteine",
     "subtopic": "Folate metabolism and homocysteine",
-    "question": "Which consequence pattern is associated with an MTHFR mutation in the supplied review?",
+    "question": "Which consequence pattern can be associated with reduced MTHFR activity?",
     "choices": {
       "A": "Reduced folate activation with lower homocysteine and lower neural-tube-defect risk",
       "B": "Reduced folate activation with possible increased homocysteine and neural-tube-defect risk",
@@ -4694,7 +4896,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Normal folate activation with increased homocysteine unrelated to methylation"
     },
     "correctAnswer": "B",
-    "explanation": "The notes link MTHFR activity with formation of active methylated folate. Reduced activation is paired with increased homocysteine and greater concern for neural-tube defects, including anencephaly.",
+    "explanation": "Reduced MTHFR activity can reduce formation of active methylated folate and may be associated with increased homocysteine and greater concern for neural-tube defects.",
     "terminology": [
       {
         "term": "MTHFR, folate activation, and homocysteine",
@@ -4705,14 +4907,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Mechanism",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q100",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Clinical nutrition cautions and terminology",
     "subtopic": "Clinical nutrition cautions and terminology",
-    "question": "Which patient situation is identified in the supplied review as a contraindication for mineral supplementation?",
+    "question": "Which patient should avoid unsupervised mineral supplementation and seek individualized guidance from the dialysis care team?",
     "choices": {
       "A": "A healthy adult considering a standard-dose multivitamin",
       "B": "A pregnant patient reviewing dietary mineral intake with a clinician",
@@ -4720,7 +4924,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "A patient undergoing dialysis"
     },
     "correctAnswer": "D",
-    "explanation": "The upper-tri notes specifically identify dialysis as a contraindication for mineral supplementation, making it the best answer among the clinical scenarios.",
+    "explanation": "A patient undergoing dialysis requires individualized guidance before using mineral supplements.",
     "terminology": [
       {
         "term": "A patient undergoing dialysis",
@@ -4731,14 +4935,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q101",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Cellular aging and lifestyle",
     "subtopic": "Cellular aging and lifestyle",
-    "question": "Which relationship is stated in the supplied review regarding telomere length?",
+    "question": "Which relationship is associated with telomere length?",
     "choices": {
       "A": "Longer telomeres are associated with delayed cellular senescence and greater longevity",
       "B": "Longer telomeres are associated with earlier senescence and earlier cell death",
@@ -4746,7 +4952,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Telomere length is presented as unrelated to cell death or senescence"
     },
     "correctAnswer": "A",
-    "explanation": "The notes associate longer telomere length with delayed cell death, delayed senescence, and greater cellular longevity; the alternatives reverse or deny that relationship.",
+    "explanation": "Longer telomeres are associated with delayed cellular senescence and greater cellular longevity.",
     "terminology": [
       {
         "term": "Telomere length and cellular aging",
@@ -4757,14 +4963,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Relationship",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q102",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Clinical nutrition cautions and terminology",
     "subtopic": "Clinical nutrition cautions and terminology",
-    "question": "In the supplied review, what does TID stand for?",
+    "question": "What does TID stand for?",
     "choices": {
       "A": "Transit, Intake, Digestion",
       "B": "Toxins, Infection, Dietary Proteins",
@@ -4772,7 +4980,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Tissue, Inflammation, Digestion"
     },
     "correctAnswer": "B",
-    "explanation": "The supplied notes define TID as Toxins, Infection, Dietary Proteins.",
+    "explanation": "TID stands for Toxins, Infection, Dietary Proteins.",
     "terminology": [
       {
         "term": "Toxins, Infection, Dietary Proteins",
@@ -4783,14 +4991,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 4",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "upper_tri_review"
+    "reviewPriority": "upper_tri_review",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q103",
     "unit": "Nutrition Quality, Disease, and Detoxification",
     "conceptBlock": "Chronic disease prevention and lifestyle",
     "subtopic": "Chronic disease prevention and lifestyle",
-    "question": "Which set of themes best matches the Blue Zones discussion in the supplied review?",
+    "question": "Which set of themes best matches Blue Zones lifestyle patterns?",
     "choices": {
       "A": "Scheduled high-intensity exercise, calorie tracking, and an animal-protein-centered diet",
       "B": "Natural movement, purpose, social connection, moderation, and plant-centered eating",
@@ -4798,7 +5008,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Natural movement combined with a single mandatory macronutrient ratio and unrestricted portions"
     },
     "correctAnswer": "B",
-    "explanation": "The review presents Blue Zones as a recurring lifestyle pattern: natural movement, purpose, social connection, moderation, and plant-centered eating. It does not reduce longevity to supplements, formal exercise alone, or one mandatory macronutrient ratio.",
+    "explanation": "Blue Zones lifestyle patterns include natural movement, purpose, social connection, moderation, and plant-centered eating.",
     "terminology": [
       {
         "term": "Blue Zones themes",
@@ -4809,14 +5019,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 1; instructor transcript, pp. 21-23",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Application",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q104",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Omega-6 and omega-3 conversion pathways",
     "subtopic": "Omega-6 and omega-3 conversion pathways",
-    "question": "If delta-6-desaturase activity is limited, which conversion identified in the supplied review is most directly reduced?",
+    "question": "If delta-6-desaturase activity is limited, which conversion is most directly reduced?",
     "choices": {
       "A": "Oleic acid to alpha-linolenic acid",
       "B": "Arachidonic acid to linoleic acid",
@@ -4824,7 +5036,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "EPA to linoleic acid"
     },
     "correctAnswer": "C",
-    "explanation": "The upper-tri review identifies delta-6-desaturase as necessary for conversion of omega-6 linoleic acid to gamma-linolenic acid. The instructor transcript adds that reduced enzyme activity limits movement from essential fatty acids toward downstream products.",
+    "explanation": "Delta-6-desaturase is necessary for conversion of omega-6 linoleic acid to gamma-linolenic acid; limited activity reduces movement from essential fatty acids toward downstream products.",
     "terminology": [
       {
         "term": "Linoleic acid to gamma-linolenic acid",
@@ -4835,14 +5047,16 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 3; instructor transcript, p. 36",
     "learningLevel": "Integrative",
     "retrievalAngle": "Enzyme -> Consequence",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q105",
     "unit": "Macronutrient Foundations",
     "conceptBlock": "Omega-6 and omega-3 conversion pathways",
     "subtopic": "Omega-6 and omega-3 conversion pathways",
-    "question": "Which pairing correctly matches the fatty-acid relationships taught in the supplied review?",
+    "question": "Which pairing correctly matches these fatty-acid relationships?",
     "choices": {
       "A": "Arachidonic acid—omega-3 product; EPA—essential omega-6 precursor",
       "B": "Arachidonic acid—omega-9 monounsaturated fat; EPA—linoleic acid",
@@ -4850,7 +5064,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "D": "Arachidonic acid—associated with animal products and the omega-6 pathway; EPA—eicosapentaenoic acid in the omega-3 pathway"
     },
     "correctAnswer": "D",
-    "explanation": "The review places arachidonic acid on the omega-6 side and notes animal products as a dietary source. EPA stands for eicosapentaenoic acid and is a downstream omega-3 pathway product.",
+    "explanation": "Arachidonic acid is associated with animal products and the omega-6 pathway. EPA stands for eicosapentaenoic acid and is a downstream omega-3 pathway product.",
     "terminology": [
       {
         "term": "Arachidonic acid and EPA identification",
@@ -4861,11 +5075,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Illiana review notes, p. 3; instructor transcript, pp. 34-36",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Matching",
-    "reviewPriority": "both"
+    "reviewPriority": "both",
+    "exam": "exam1",
+    "sourceLabel": "Instructor-grounded Exam 1"
   },
   {
     "id": "Q106",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Macronutrient foundations",
     "subtopic": "Macronutrient foundations",
     "question": "This nutrient is considered a building block of the body and includes nitrogen in its structure.",
@@ -4887,11 +5103,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 1",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q107",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Macronutrient foundations",
     "subtopic": "Macronutrient foundations",
     "question": "This nutrient is considered the body's primary fuel source.",
@@ -4913,11 +5131,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 1",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q108",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Carbohydrate and glycemic concepts",
     "subtopic": "Carbohydrate and glycemic concepts",
     "question": "Which term is defined as a food's potential to raise blood glucose?",
@@ -4939,11 +5159,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 1",
     "learningLevel": "Foundation",
     "retrievalAngle": "Definition",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q109",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Macronutrient foundations",
     "subtopic": "Macronutrient foundations",
     "question": "Which relationship is most accurate for fat-soluble vitamins A, D, E, and K?",
@@ -4965,11 +5187,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 1",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q110",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Macronutrient foundations",
     "subtopic": "Macronutrient foundations",
     "question": "Which statement about enzymes and hormones is most accurate?",
@@ -4991,11 +5215,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 1",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q111",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Macronutrient foundations",
     "subtopic": "Macronutrient foundations",
     "question": "Foods rich in carbohydrates such as fruits, vegetables, whole grains, and legumes provide non-digestible what?",
@@ -5017,11 +5243,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Identification",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q112",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Dietary patterns and amino acids",
     "subtopic": "Dietary patterns and amino acids",
     "question": "Which statement is correct regarding the listed adult AMDRs?",
@@ -5043,11 +5271,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q113",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Dietary patterns and amino acids",
     "subtopic": "Dietary patterns and amino acids",
     "question": "How many essential amino acids are recognized for adults?",
@@ -5069,11 +5299,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q114",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Abby Soccer Supplemental",
     "conceptBlock": "Dietary patterns and amino acids",
     "subtopic": "Dietary patterns and amino acids",
     "question": "Which meal would be consumed by a pescatarian?",
@@ -5095,11 +5327,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 2",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam1",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q115",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Later-course: Gut Health",
     "conceptBlock": "Carbohydrate and glycemic concepts",
     "subtopic": "Carbohydrate and glycemic concepts",
     "question": "Which type of carbohydrate most directly supports growth of desirable bacteria in the GI tract?",
@@ -5121,11 +5355,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 2",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "later",
+    "sourceLabel": "Abby Soccer Supplemental • Later-course"
   },
   {
     "id": "Q116",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Vitamins",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Match Vitamin A with its food source.",
@@ -5147,11 +5383,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, pp. 2-3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q117",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Vitamins",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Match Vitamin D with its food source.",
@@ -5173,11 +5411,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q118",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Vitamins",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Match Vitamin E with its food source.",
@@ -5199,11 +5439,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q119",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Vitamins",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Match Vitamin K with its food source.",
@@ -5225,11 +5467,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q120",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to thiamin?",
@@ -5251,11 +5495,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q121",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to riboflavin?",
@@ -5277,11 +5523,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q122",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to niacin?",
@@ -5303,11 +5551,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q123",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to pantothenic acid?",
@@ -5329,11 +5579,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q124",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to pyridoxine?",
@@ -5355,11 +5607,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q125",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to biotin?",
@@ -5381,11 +5635,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q126",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to folate?",
@@ -5407,11 +5663,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 3; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q127",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which vitamin designation corresponds to cobalamin?",
@@ -5433,11 +5691,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q128",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which function is most closely associated with iodine?",
@@ -5459,11 +5719,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q129",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which statement best describes a role of sulfur in the supplemental material?",
@@ -5485,11 +5747,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q130",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which function is most closely associated with sodium?",
@@ -5511,11 +5775,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q131",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which set includes recognized functions of chloride?",
@@ -5537,11 +5803,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q132",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which function is most closely associated with iron?",
@@ -5563,11 +5831,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q133",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which is a well-supported function of zinc?",
@@ -5589,11 +5859,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q134",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Mineral functions",
     "subtopic": "Mineral functions",
     "question": "Which pairing correctly describes two important roles of choline?",
@@ -5615,11 +5887,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 4; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Function",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q135",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which coenzyme is associated with vitamin B1?",
@@ -5641,11 +5915,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, pp. 4-5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q136",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which coenzyme is associated with vitamin B2?",
@@ -5667,11 +5943,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q137",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which coenzyme is associated with vitamin B3?",
@@ -5693,11 +5971,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q138",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which coenzyme is associated with vitamin B9?",
@@ -5719,11 +5999,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q139",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "B Vitamins and Coenzymes",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which statement about vitamin B12 coenzymes is correct?",
@@ -5745,11 +6027,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q140",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which nutrient deficiency is classically associated with beriberi?",
@@ -5771,11 +6055,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q141",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which nutrient deficiency is classically associated with cheilosis?",
@@ -5797,11 +6083,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q142",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which nutrient deficiency is classically associated with pellagra?",
@@ -5823,11 +6111,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q143",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which deficiency is associated with increased risk of neural-tube defects in offspring?",
@@ -5849,11 +6139,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q144",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Vitamin concepts",
     "subtopic": "Vitamin concepts",
     "question": "Which deficiency can cause infantile seizures in the supplemental clinical material?",
@@ -5875,11 +6167,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q145",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Supplement Applications",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Jon has followed a vegan diet for 1.5 years and eats fruits, vegetables, and legumes. Which deficiency risk is identified in the supplemental set?",
@@ -5901,11 +6195,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 5; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q146",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Supplement Applications",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "What is the most accurate statement about niacin and an abnormal lipid panel?",
@@ -5927,11 +6223,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 6; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q147",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Supplement Applications",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which vitamin-like compound is identified as potentially over-consumed in the fishy-body-odor scenario?",
@@ -5953,11 +6251,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 6; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q148",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Supplement Applications",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which group is identified as having a higher risk for toxicity?",
@@ -5979,11 +6279,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 6; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Comparison",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q149",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Supplement Applications",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which item is identified as potentially inhibiting iron absorption?",
@@ -6005,11 +6307,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, pp. 6-7; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q150",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Supplement Applications",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "With which item does the supplemental set suggest taking an iron supplement to improve absorption?",
@@ -6031,11 +6335,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 7; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q151",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Very high-dose vitamin D supplementation can cause which toxicity pattern?",
@@ -6057,11 +6363,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 7; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q152",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "What effect is identified as a possible result of excess beta-carotene consumption?",
@@ -6083,11 +6391,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, pp. 7-8; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q153",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which diagnosis is identified for bleeding gums, fatigue, and small red dots after a winter diet lacking fresh produce?",
@@ -6109,11 +6419,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 8; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q154",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "A patient moving to northern Alaska is identified as being at greatest risk for deficiency of which nutrient?",
@@ -6135,11 +6447,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 8; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Prediction",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q155",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which nutrient deficiency and radiographic finding are paired in the supplemental set?",
@@ -6161,11 +6475,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 8; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q156",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which social habit is identified as increasing the need for vitamin C?",
@@ -6187,11 +6503,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 9; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Cause -> Effect",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q157",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Adequate intake of meat is identified in the supplemental set as helping ensure adequate amounts of which group?",
@@ -6213,11 +6531,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 9; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Recognition",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q158",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Deficiency and Toxicity",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which set correctly lists the four Ds of pellagra?",
@@ -6239,11 +6559,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 9; later micronutrient content",
     "learningLevel": "Foundation",
     "retrievalAngle": "Matching",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q159",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "What is the most accurate concern when a family uses bottled water for drinking and infant formula?",
@@ -6265,11 +6587,13 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 10; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   },
   {
     "id": "Q160",
-    "unit": "Abby Soccer Quizlet",
+    "unit": "Minerals and Related Nutrients",
     "conceptBlock": "Supplemental clinical applications",
     "subtopic": "Supplemental clinical applications",
     "question": "Which is one appropriate food-based strategy for increasing calcium intake?",
@@ -6291,7 +6615,9 @@ document.addEventListener("DOMContentLoaded", function() {
     "sourceAnchor": "Unknown.pdf, p. 10; later micronutrient content",
     "learningLevel": "Applied Reinforcement",
     "retrievalAngle": "Clinical Application",
-    "reviewPriority": "standard"
+    "reviewPriority": "standard",
+    "exam": "exam2",
+    "sourceLabel": "Abby Soccer Supplemental"
   }
 ];
 
@@ -6377,7 +6703,8 @@ document.addEventListener("DOMContentLoaded", function() {
   var questionTimerElapsed = 0;
   var questionTimerStartedAt = null;
   var questionTimerInterval = null;
-  var activeUnit = units[0].name;
+  var activeExam = "exam1";
+  var activeUnit = "All Topics";
   var unitProgress = {};
   var storageKey = "quizEngineMemoryV1:" + window.location.pathname;
 
@@ -6385,10 +6712,27 @@ document.addEventListener("DOMContentLoaded", function() {
     return unitName === "All Topics";
   }
 
-  function questionInActiveUnit(question) {
-    return question && (isAllTopicsUnit(activeUnit) || question.unit === activeUnit);
+  function examDisplayName(exam) {
+    return exam === "exam2" ? "Exam 2" : "Exam 1";
   }
 
+  function progressKey(unitName) {
+    return activeExam + "::" + unitName;
+  }
+
+  function questionInActiveUnit(question) {
+    return question && question.exam === activeExam &&
+      (isAllTopicsUnit(activeUnit) || question.unit === activeUnit);
+  }
+
+  function updatePracticeHeading() {
+    var heading = document.getElementById("practiceHeading");
+    if (!heading) return;
+    var count = questions.filter(function(question) { return question.exam === activeExam; }).length;
+    heading.textContent = count + " Question Interactive Practice";
+  }
+
+  var examTabs = document.getElementById("examTabs");
   var modeFilter = document.getElementById("modeFilter");
   var topicFilter = document.getElementById("topicFilter");
   var countFilter = document.getElementById("countFilter");
@@ -6598,7 +6942,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function saveActiveUnitProgress() {
     if (!activeUnit) return;
-    unitProgress[activeUnit] = currentProgressSnapshot();
+    unitProgress[progressKey(activeUnit)] = currentProgressSnapshot();
   }
 
   function readSavedState() {
@@ -6639,6 +6983,7 @@ document.addEventListener("DOMContentLoaded", function() {
         unitProgress: unitProgress,
         resultHistoryHtml: byId("resultHistory") ? byId("resultHistory").innerHTML : "",
         settings: {
+          exam: activeExam,
           unit: activeUnit,
           mode: valueOf(modeFilter, "mc"),
           conceptBlock: valueOf(topicFilter, ""),
@@ -6674,7 +7019,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     setSelectValue(modeFilter, saved.settings.mode, "mc");
+    if (saved.settings.exam === "exam1" || saved.settings.exam === "exam2") activeExam = saved.settings.exam;
     if (unitExists(saved.settings.unit)) activeUnit = saved.settings.unit;
+    else activeUnit = "All Topics";
     populateConceptFilter();
     setSelectValue(topicFilter, saved.settings.conceptBlock || saved.settings.topic, "");
     setSelectValue(countFilter, saved.settings.count, "10");
@@ -6695,15 +7042,19 @@ document.addEventListener("DOMContentLoaded", function() {
     sessionCorrect = Number(saved.sessionCorrect || 0);
     sessionAttempted = Number(saved.sessionAttempted || 0);
     unitProgress = saved.unitProgress || {};
+    var currentProgressKey = progressKey(activeUnit);
+    if (!unitProgress[currentProgressKey] && unitProgress[activeUnit]) {
+      unitProgress[currentProgressKey] = unitProgress[activeUnit];
+    }
 
-    if (!unitProgress[activeUnit] && (
+    if (!unitProgress[currentProgressKey] && (
       Number(saved.scoreAttempted || 0) ||
       (saved.deckIds && saved.deckIds.length) ||
       (saved.bankAttempts && saved.bankAttempts.length) ||
       (saved.missedQuestionIds && saved.missedQuestionIds.length) ||
       (saved.flaggedQuestionIds && saved.flaggedQuestionIds.length)
     )) {
-      unitProgress[activeUnit] = {
+      unitProgress[currentProgressKey] = {
         scoreCorrect: Number(saved.scoreCorrect || 0),
         scoreAttempted: Number(saved.scoreAttempted || 0),
         currentStreak: Number(saved.currentStreak || 0),
@@ -6843,8 +7194,9 @@ document.addEventListener("DOMContentLoaded", function() {
       "<div class=\"recent-trail-head\"><div class=\"recent-trail-label\">Recent questions</div>" + tipHtml + "</div>" +
       "<div class=\"recent-trail-scroll\">" +
         items.map(function(item) {
+          var status = item.correct ? " correct" : " wrong";
           var active = current && current.id === item.questionId ? " active" : "";
-          return "<button class=\"recent-trail-item" + active +
+          return "<button class=\"recent-trail-item" + status + active +
             "\" type=\"button\" data-question-id=\"" + htmlEscape(item.questionId) +
             "\" aria-label=\"Question " + item.displayNumber + "\">" +
             "<span>" + item.displayNumber + "</span></button>";
@@ -6980,7 +7332,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function restoreUnitProgress(unitName, resetTimerOnRestore) {
-    var progress = unitProgress[unitName];
+    var progress = unitProgress[progressKey(unitName)];
     if (progress) {
       applyProgressSnapshot(progress, resetTimerOnRestore);
       return;
@@ -7473,16 +7825,6 @@ document.addEventListener("DOMContentLoaded", function() {
         "<p>" + htmlEscape(question.explanation || "") + "</p></div>";
 
 
-      if (question.terminology && question.terminology.length) {
-        text += "<div class=\"answer-summary-card terminology-card\">" +
-          "<div class=\"section-title\"><span aria-hidden=\"true\">◆</span><span>Key terminology:</span></div>" +
-          "<div class=\"terminology-list\">" + question.terminology.map(function(item) {
-            return "<div class=\"terminology-item\"><mark class=\"terminology-term\">" +
-              htmlEscape(item.term) + "</mark><p class=\"terminology-definition\">" +
-              htmlEscape(item.definition) + "</p></div>";
-          }).join("") + "</div></div>";
-      }
-
       if (question.commonPitfall) {
         text += "<div class=\"answer-summary-card pitfall-card\">" +
           "<div class=\"section-title\"><span aria-hidden=\"true\">!</span><span>Common pitfall:</span></div>" +
@@ -7871,7 +8213,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function unitExists(unitName) {
     return units.some(function(unit) {
-      return unit.name === unitName;
+      return unit.exam === activeExam && unit.name === unitName;
     });
   }
 
@@ -7884,16 +8226,16 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function orderedUnitList() {
-    return units.slice().sort(function(a, b) {
+    return units.filter(function(unit) {
+      return unit.exam === activeExam;
+    }).sort(function(a, b) {
       return a.order - b.order;
     });
   }
 
   function unitQuestions(unitName) {
-    if (isAllTopicsUnit(unitName)) return questions.slice();
-
     return questions.filter(function(q) {
-      return q.unit === unitName;
+      return q.exam === activeExam && (isAllTopicsUnit(unitName) || q.unit === unitName);
     });
   }
 
@@ -7949,6 +8291,20 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
+  function renderExamTabs() {
+    if (!examTabs) return;
+    examTabs.innerHTML = "";
+    ["exam1", "exam2"].forEach(function(exam) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "exam-tab" + (exam === activeExam ? " active" : "");
+      button.textContent = examDisplayName(exam);
+      button.setAttribute("aria-pressed", exam === activeExam ? "true" : "false");
+      button.addEventListener("click", function() { setActiveExam(exam); });
+      examTabs.appendChild(button);
+    });
+  }
+
   function renderUnitTabs() {
     var tabs = document.getElementById("unitTabs");
     if (!tabs) return;
@@ -7979,6 +8335,27 @@ document.addEventListener("DOMContentLoaded", function() {
       "<div class=\"concept-breakdown\">" + conceptBreakdownHtml(unit) + "</div>");
   }
 
+  function setActiveExam(exam) {
+    if (exam !== "exam1" && exam !== "exam2") return;
+    if (exam === activeExam) return;
+    saveActiveUnitProgress();
+    activeExam = exam;
+    activeUnit = "All Topics";
+    if (topicFilter) topicFilter.value = "";
+    if (countFilter) countFilter.value = "all";
+    populateConceptFilter();
+    renderExamTabs();
+    renderUnitTabs();
+    updatePracticeHeading();
+    updateStudyGuideDashboard();
+    restoreUnitProgress(activeUnit, true);
+    setHtml("questionList", "");
+    var questionList = byId("questionList");
+    if (questionList) questionList.setAttribute("data-open", "false");
+    setText("listQs", "Show Filtered List");
+    saveState();
+  }
+
   function setActiveUnit(unitName) {
     saveActiveUnitProgress();
     activeUnit = unitName;
@@ -7997,13 +8374,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
   if (isAllTopicsUnit(activeUnit) && countFilter) countFilter.value = "all";
   populateConceptFilter();
+  renderExamTabs();
   renderUnitTabs();
+  updatePracticeHeading();
   updateUnitIntro();
   updateStudyGuideDashboard();
 
   var savedState = readSavedState();
   applySavedSettings(savedState);
+  renderExamTabs();
   renderUnitTabs();
+  updatePracticeHeading();
   updateUnitIntro();
   updateStudyGuideDashboard();
 
